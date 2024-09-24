@@ -1,0 +1,71 @@
+<section id="mfe1-form">
+  <h1>MFE1 FORM-komponent</h1>
+  <form [formGroup]="orderForm" (ngSubmit)="onSubmit()">
+    <div>
+      <label for="customerName">Customer Name:</label>
+      <input id="customerName" formControlName="customerName" />
+      <div
+        *ngIf="
+          orderForm.get('customerName')?.invalid &&
+          orderForm.get('customerName')?.touched
+        "
+      >
+        Name is required
+      </div>
+    </div>
+
+    <div>
+      <label for="email">Email:</label>
+      <input id="email" formControlName="email" />
+      <div
+        *ngIf="
+          orderForm.get('email')?.invalid && orderForm.get('email')?.touched
+        "
+      >
+        Valid email is required
+      </div>
+    </div>
+
+    <div>
+      <label for="address">Address:</label>
+      <input id="address" formControlName="address" />
+      <div
+        *ngIf="
+          orderForm.get('address')?.invalid && orderForm.get('address')?.touched
+        "
+      >
+        Address is required
+      </div>
+    </div>
+
+    <div formArrayName="items">
+      <div
+        *ngFor="let item of items.controls; let i = index"
+        [formGroupName]="i"
+      >
+        <label for="itemName">Item Name:</label>
+        <input id="itemName" formControlName="itemName" />
+        <div
+          *ngIf="item.get('itemName')?.invalid && item.get('itemName')?.touched"
+        >
+          Item name is required
+        </div>
+
+        <label for="quantity">Quantity:</label>
+        <input id="quantity" type="number" formControlName="quantity" />
+        <div
+          *ngIf="item.get('quantity')?.invalid && item.get('quantity')?.touched"
+        >
+          Quantity must be at least 1
+        </div>
+
+        <button type="button" (click)="removeItem(i)">Remove Item</button>
+      </div>
+    </div>
+
+    <button type="button" (click)="addItem()">Add Item</button>
+    <button type="submit" [disabled]="orderForm.invalid">Submit Order</button>
+  </form>
+  <lib-review-form></lib-review-form>
+  <app-mfe1-footer></app-mfe1-footer>
+</section>
